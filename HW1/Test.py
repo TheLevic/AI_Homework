@@ -6,8 +6,8 @@ from Geometry import Triangle, Rectangle, Square, Circle, Polygon
 ## Test cases for Problem 1 ##
 ##############################
 
-# triangle = Triangle((0, 1), (1, 0), (0, 0))
-# print("Area of %s: %0.4f" % (triangle.name, triangle.calculate_area()))
+triangle = Triangle((0, 1), (1, 0), (0, 0))
+print("Area of %s: %0.4f" % (triangle.name, triangle.calculate_area()))
 
 rectangle = Rectangle((0, 0), (2, 2))
 print("Area of %s: %0.4f" % (rectangle.name, rectangle.calculate_area()))
@@ -18,8 +18,8 @@ print("Area of %s: %0.4f" % (square.name, square.calculate_area()))
 circle = Circle((0, 0), 3)
 print("Area of %s: %0.4f" % (circle.name, circle.calculate_area()))
 
-# polygon = Polygon([(0, 0), (0, 1), (1, 1), (1, 0)])
-# print("Area of %s: %0.4f" % (polygon.name, polygon.calculate_area()))
+polygon = Polygon([(0, 0), (0, 1), (1, 1), (1, 0)])
+print("Area of %s: %0.4f" % (polygon.name, polygon.calculate_area()))
 
 #########################################
 ## Test cases for matrix multplication ##
