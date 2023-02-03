@@ -82,7 +82,6 @@ class Polygon(Geometry):
             return S 
 
 def matrix_multiplication(A:np.matrix,B:np.matrix):
-    # Need to check that there are the same amount of cols in A as rows in B
     rowsA, colsA = A.shape
     rowsB, colsB = B.shape
     C = np.zeros((rowsA,colsB))
@@ -91,3 +90,17 @@ def matrix_multiplication(A:np.matrix,B:np.matrix):
             for num in range(colsA):
                 C[row,col] += A[row,num] * B[num,col];
     return C;
+
+def pow(A , n):
+    if (n == 0):
+        return np.eye(A.shape[0])
+    else:
+        B = pow(A, int(n / 2));
+        B = B @ B;
+        if (n % 2) == 0:
+            return B;
+        else:
+            return B @ A;
+
+
+        

@@ -1,6 +1,6 @@
 import random
 import numpy as np
-from Geometry import Triangle, Rectangle, Square, Circle, Polygon, matrix_multiplication
+from Geometry import Triangle, Rectangle, Square, Circle, Polygon, matrix_multiplication, pow
 
 ##############################
 ## Test cases for Problem 1 ##
@@ -36,10 +36,10 @@ for test in range(10):
 ## Test cases for the pow function ##
 #####################################
 
-# for test in range(10):
-#     n = random.randint(2, 5)
-#     A = np.random.randn(n, n)
-#     print("A^{} = {}".format(n, pow(A, n)))
+for test in range(10):
+    n = random.randint(2, 5)
+    A = np.random.randn(n, n)
+    print("A^{} = {}".format(n, pow(A, n)))
 
 
 #####################################################
