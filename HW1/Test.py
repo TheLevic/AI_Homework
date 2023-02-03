@@ -1,6 +1,6 @@
 import random
 import numpy as np
-from Geometry import Triangle, Rectangle, Square, Circle, Polygon
+from Geometry import Triangle, Rectangle, Square, Circle, Polygon, matrix_multiplication
 
 ##############################
 ## Test cases for Problem 1 ##
@@ -25,12 +25,12 @@ print("Area of %s: %0.4f" % (polygon.name, polygon.calculate_area()))
 ## Test cases for matrix multplication ##
 #########################################
 
-# for test in range(10):
-#     m, n, k = random.randint(3, 10), random.randint(3, 10), random.randint(3, 10)
-#     A = np.random.randn(m, n)
-#     B = np.random.randn(n, k)
-#     assert np.mean(np.abs(A.dot(B) - matrix_multilication(A, B))) <= 1e-7, "Your implmentation is wrong!"
-#     print("[Test Case %d]. Your implementation is correct!" % test)
+for test in range(10):
+    m, n, k = random.randint(3, 10), random.randint(3, 10), random.randint(3, 10)
+    A = np.random.randn(m, n)
+    B = np.random.randn(n, k)
+    assert np.mean(np.abs(A.dot(B) - matrix_multiplication(A, B))) <= 1e-7, "Your implmentation is wrong!"
+    print("[Test Case %d]. Your implementation is correct!" % test)
 
 #####################################
 ## Test cases for the pow function ##

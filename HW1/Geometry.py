@@ -80,10 +80,14 @@ class Polygon(Geometry):
             p = (ab + ac + bc) / 2
             S += np.sqrt(p * (p - ab) * (p - ac) * (p - bc))
             return S 
-def main():
-    pass;
 
-if __name__ == "__main__":
-    main();
-
-
+def matrix_multiplication(A:np.matrix,B:np.matrix):
+    # Need to check that there are the same amount of cols in A as rows in B
+    rowsA, colsA = A.shape
+    rowsB, colsB = B.shape
+    C = np.zeros((rowsA,colsB))
+    for row in range(rowsA):
+        for col in range(colsB):
+            for num in range(colsA):
+                C[row,col] += A[row,num] * B[num,col];
+    return C;
