@@ -1,6 +1,6 @@
 import random
 import numpy as np
-from Geometry import Triangle, Rectangle, Square, Circle, Polygon, matrix_multiplication, pow
+from Hw1 import Triangle, Rectangle, Square, Circle, Polygon, matrix_multiplication, pow
 
 ##############################
 ## Test cases for Problem 1 ##

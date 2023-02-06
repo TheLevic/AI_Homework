@@ -102,5 +102,14 @@ def pow(A , n):
         else:
             return B @ A;
 
+def pow(A:np.matrix,n):
+    result = np.eye(A.shape[0])
+    while n > 0:
+        if (n % 2) == 1:
+            return result @ A
+        A = A @ A
+        n = n // 2
+    return result
+
 
         
