@@ -102,14 +102,39 @@ def pow(A , n):
         else:
             return B @ A;
 
-def pow(A:np.matrix,n):
-    result = np.eye(A.shape[0])
-    while n > 0:
-        if (n % 2) == 1:
-            return result @ A
-        A = A @ A
-        n = n // 2
-    return result
+# def pow(A:np.matrix,n):
+#     result = np.eye(A.shape[0])
+#     while n > 0:
+#         if (n % 2) == 1:
+#             return result @ A
+#         A = A @ A
+#         n = n // 2
+#     return result
+
+def get_A():
+    return np.array([[1., 1.], [1., 0.]])
+
+def fibo(n):
+    # Get our array
+    A = get_A();
+    # Set our f1 variable array to implement the formula
+    f1 = np.array([[1.],[1.]]);
+    # Implement formula
+    fNum = pow(A, n - 1) @ f1;
+    # Return fib number
+    return int(fNum[0][0]);
+
+def f(n,k):
+    # If n < k, the formula says to return 1
+    if (n < k):
+        return 1;
+    else:
+        result = 0;
+        # We want to loop through all values including k, so we need k + 1 here
+        for i in range(1, k + 1):
+            result += f(n - i, k);
+        return result; 
+
 
 
         

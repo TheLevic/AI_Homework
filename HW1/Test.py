@@ -1,6 +1,6 @@
 import random
 import numpy as np
-from Hw1 import Triangle, Rectangle, Square, Circle, Polygon, matrix_multiplication, pow
+from Hw1 import Triangle, Rectangle, Square, Circle, Polygon, matrix_multiplication, pow, fibo, f
 
 ##############################
 ## Test cases for Problem 1 ##
@@ -46,17 +46,17 @@ for test in range(10):
 ## Test Cases for Fibonacci and Recursive Sequence ##
 #####################################################
 
-# a, b = 1, 1
-# for i in range(2, 10):
-#     c = a + b
-#     assert (fibo(i) == c), "You implementation is incorrect"
-#     print("[Test Case %d]. Your implementation is correct!. fibo(%d) = %d" % (i - 2, i, fibo(i)))
-#     a = b
-#     b = c
+a, b = 1, 1
+for i in range(2, 10):
+    c = a + b
+    assert (fibo(i) == c), "You implementation is incorrect"
+    print("[Test Case %d]. Your implementation is correct!. fibo(%d) = %d" % (i - 2, i, fibo(i)))
+    a = b
+    b = c
 
-# for n in range(5, 11):
-#     for k in range(2, 5):
-#         print("f(%d, %d) = %d" % (n, k, f(n, k)))
+for n in range(5, 11):
+    for k in range(2, 5):
+        print("f(%d, %d) = %d" % (n, k, f(n, k)))
 
 ########################################### 
 ## Test Cases for BFS, DFS, Find Minimum ##
