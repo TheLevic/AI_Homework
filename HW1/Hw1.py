@@ -155,3 +155,39 @@ def DFS(A:np.matrix):
     # Wanting to find a path from (0,0) to (m-1, n-1 )
     # So I need to treat each spot in the matrix as a node, and (0,0) as the starting node
     recursiveDFS(0,0,A,np.zeros_like(A),[]); 
+
+
+def BFS(A:np.matrix):
+    # Start the same a DFS and get the shape of the matrix and a similar matrix filled with zeros to make sure we can keep track of what nodes we have visited
+    rows,cols = np.shape(A);
+    visited = np.zeros_like(A);
+    # Need to be able to keep track of our previous position since this is not recursive
+    prevX = np.ones_like(A) * -1;
+    prevY = np.ones_like(A) * -1;
+    # Breadth-first search requires a queue
+    queue = [(0,0)]
+    # Setting our starting position to visited
+    visited[0][0] = 1;
+    
+    while (len(queue) > 0):
+        x, y = queue.pop(0);
+        for dx, dy in [(-1,0), (0,1), (1,0), (0,1)]:
+            u = x + dx;
+            v = y + dy;
+
+            if (0 <= u) and (u < rows) and (0 <= v) and (v < cols) and (A[u][v] != 0 ) and (visited[u][v] == 0):
+                prevX[u][v] = x
+                prevY[u][v] = y
+                queue.append((u, v))
+                visited[u][v] = 1
+
+    path = []
+    x, y = rows - 1, cols - 1
+    while (x != 0 or y != 0):
+        u, v = prevX[x][y], prevY[x][y]
+        path.append((u, v))
+        x, y = u, v
+    for u, v in path[::-1]:
+        print("(%d, %d) -> " % (u, v), end="")
+        print("(%d, %d)" % (rows - 1, cols - 1))
+            

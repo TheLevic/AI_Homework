@@ -1,6 +1,6 @@
 import random
 import numpy as np
-from Hw1 import Triangle, Rectangle, Square, Circle, Polygon, matrix_multiplication, pow, fibo, f
+from Hw1 import Triangle, Rectangle, Square, Circle, Polygon, matrix_multiplication, pow, fibo, f, DFS, BFS
 
 ##############################
 ## Test cases for Problem 1 ##
@@ -62,9 +62,9 @@ for n in range(5, 11):
 ## Test Cases for BFS, DFS, Find Minimum ##
 ###########################################
 
-# As = np.load("test.npy", allow_pickle=True)
-# for test in range(len(As)):
-#     A = As[test]
-#     print("Test Case %d" % test)
-#     print(A) 
-#     BFS(A) # or DFS(A) or FindMinium(A) 
+As = np.load("test.npy", allow_pickle=True)
+for test in range(len(As)):
+    A = As[test]
+    print("Test Case %d" % test)
+    print(A) 
+    BFS(A) # or DFS(A) or FindMinium(A) 
