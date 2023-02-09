@@ -79,12 +79,14 @@ class Polygon(Geometry):
             ab, ac, bc = self.distance(0, i - 1), self.distance(0, i), self.distance(i, i - 1)
             p = (ab + ac + bc) / 2
             S += np.sqrt(p * (p - ab) * (p - ac) * (p - bc))
-            return S 
+        return S 
 
 def matrix_multiplication(A:np.matrix,B:np.matrix):
     rowsA, colsA = A.shape
     rowsB, colsB = B.shape
+    # C will be our final matrix
     C = np.zeros((rowsA,colsB))
+    #Now need to multiply each item in A's rows by each item in B's cols.
     for row in range(rowsA):
         for col in range(colsB):
             for num in range(colsA):
@@ -111,6 +113,7 @@ def pow(A:np.matrix,n):
         n = n // 2
     return result
 
+# Getting an array that start with our 1's for our fib sequence
 def get_A():
     return np.array([[1., 1.], [1., 0.]])
 
@@ -136,5 +139,63 @@ def f(n,k):
         return result; 
 
 
+def recursiveDFS(x, y, matrix, visited, path):
+    row,col = np.shape(matrix);
+    # Visited is a matrix keeping track of whether we have visited a certain point or not
+    visited[x][y] = 1;
 
-        
+    #Now, I need to check my base case
+    if (x == row - 1 and y == col - 1 ):
+        print(path);
+   # Now, I need to check if I can move one way or the other, and if it has been visited
+    for dx, dy in [(0,1), (0,-1),(1,0), (-1,0)]:
+       u = x + dx;
+       v = y + dy; 
+       if (u >= 0 and u < row and v >= 0 and v < col and matrix[u][v] != 0 and visited[u][v] == 0):
+            # Now I need to append values to the path array
+            path.append((u,v))
+            recursiveDFS(u, v,matrix,visited,path);
+            # If the values are not used when getting to the (row-1,col-1) then they should be popped off the path array.
+            path.pop();
+
+def DFS(A:np.matrix):
+    # Give a m x n matrix
+    # Wanting to find a path from (0,0) to (m-1, n-1 )
+    # So I need to treat each spot in the matrix as a node, and (0,0) as the starting node
+    recursiveDFS(0,0,A,np.zeros_like(A),[]); 
+
+
+def BFS(A:np.matrix):
+    # Start the same a DFS and get the shape of the matrix and a similar matrix filled with zeros to make sure we can keep track of what nodes we have visited
+    rows,cols = np.shape(A);
+    visited = np.zeros_like(A);
+    # Need to be able to keep track of our previous position since this is not recursive
+    prevX = np.ones_like(A) * -1;
+    prevY = np.ones_like(A) * -1;
+    # Breadth-first search requires a queue
+    queue = [(0,0)]
+    # Setting our starting position to visited
+    visited[0][0] = 1;
+    
+    while (len(queue) > 0):
+        x, y = queue.pop(0);
+        for dx, dy in [(-1,0), (0,1), (1,0), (0,1)]:
+            u = x + dx;
+            v = y + dy;
+
+            if (0 <= u) and (u < rows) and (0 <= v) and (v < cols) and (A[u][v] != 0 ) and (visited[u][v] == 0):
+                prevX[u][v] = x
+                prevY[u][v] = y
+                queue.append((u, v))
+                visited[u][v] = 1
+
+    path = []
+    x, y = rows - 1, cols - 1
+    while (x != 0 or y != 0):
+        u, v = prevX[x][y], prevY[x][y]
+        path.append((u, v))
+        x, y = u, v
+    for u, v in path[::-1]:
+        print("(%d, %d) -> " % (u, v), end="")
+        print("(%d, %d)" % (rows - 1, cols - 1))
+            
