@@ -67,4 +67,4 @@ for test in range(len(As)):
     A = As[test]
     print("Test Case %d" % test)
     print(A) 
-    BFS(A) # or DFS(A) or FindMinium(A) 
+    BFS(A)  or DFS(A) #or FindMinium(A) 
