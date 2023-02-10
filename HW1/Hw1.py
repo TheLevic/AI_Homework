@@ -146,7 +146,10 @@ def recursiveDFS(x, y, matrix, visited, path):
 
     #Now, I need to check my base case
     if (x == row - 1 and y == col - 1 ):
-        print(path);
+        print("(0, 0)", end = "")
+        for (u, v) in path:
+            print(" -> (%d, %d)" % (u, v), end ="")
+            print()
    # Now, I need to check if I can move one way or the other, and if it has been visited
     for dx, dy in [(0,1), (0,-1),(1,0), (-1,0)]:
        u = x + dx;
@@ -198,4 +201,38 @@ def BFS(A:np.matrix):
     for u, v in path[::-1]:
         print("(%d, %d) -> " % (u, v), end="")
         print("(%d, %d)" % (rows - 1, cols - 1))
+
+import heapq
+def FindMinimum(A):
+    rows,cols = np.shape(A);
+    visited = np.zeros_like(A)
+    prevX = np.ones_like(A) * -1
+    prevY = np.ones_like(A) * -1
+    cost = np.ones_like(A) * 100000
+    queue = []
+    heapq.heappush(queue, (A[0][0], (0, 0)))
+    cost[0][0] = A[0][0]
+    while (len(queue) > 0):
+        c, (x, y) = heapq.heappop(queue)
+        visited[x][y] = 1
+        if (cost[x][y] != c):
+            continue
+        for dx, dy in [(-1, 0), (0, -1), (1, 0), (0, 1)]:
+            u = x + dx
+            v = y + dy
+            if (0 <= u) and (u < rows) and (0 <= v) and (v < cols) and (A[u][v] != 0) and visited[u][v] == 0 and cost[x][y] + A[u][v] < cost[u][v]:
+                prevX[u][v] = x
+                prevY[u][v] = y
+                cost[u][v] = cost[x][y] + A[u][v]
+                heapq.heappush(queue, (cost[u][v], (u, v))) 
+    path = []
+    x, y = rows - 1, cols - 1
+    while (x != 0 or y != 0):
+        u, v = prevX[x][y], prevY[x][y]
+        path.append((u, v))
+        x, y = u, v
+        print("Cost: %d" % cost[rows-1][cols-1])
+        for u, v in path[::-1]:
+            print("(%d, %d) -> " % (u, v), end="")
+            print("(%d, %d)" % (rows - 1, cols - 1))
             
