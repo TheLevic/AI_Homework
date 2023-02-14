@@ -1,2 +1,13 @@
 HW1/__pycache__/
 .DS_Store
+HW2/assignment2/game.pyc
+HW2/assignment2/ghostAgents.pyc
+HW2/assignment2/graphicsDisplay.pyc
+HW2/assignment2/graphicsUtils.pyc
+HW2/assignment2/keyboardAgents.pyc
+HW2/assignment2/layout.pyc
+HW2/assignment2/pacman.pyc
+HW2/assignment2/pacmanAgents.pyc
+HW2/assignment2/search.pyc
+HW2/assignment2/searchAgents.pyc
+HW2/assignment2/util.pyc
