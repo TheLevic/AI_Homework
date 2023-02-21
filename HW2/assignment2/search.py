@@ -87,6 +87,25 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
+    from util import Stack        
+    stack = Stack()            
+    startNode = problem.getStartState()
+    if problem.isGoalState(startNode):
+        return []
+    visitedNodes = []
+    stack.push((startNode,[]))
+    while (not stack.isEmpty()):
+        # Get the top of the stack
+        currentNode, directions= stack.pop()    
+        if (currentNode not in visitedNodes):
+            visitedNodes.append(currentNode)
+            if problem.isGoalState(currentNode):
+                return directions
+            for node, action, cost in problem.getSuccessors(currentNode):
+                # We needed to add our directions each time we pushed onto the stack as well.
+                nextAction = directions + [action]
+                stack.push((node,nextAction))
+
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
