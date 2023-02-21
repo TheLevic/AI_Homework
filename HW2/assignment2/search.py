@@ -121,7 +121,6 @@ def breadthFirstSearch(problem):
         currNode, directions, cost = queue.pop()
         if (currNode not in visitedNodes):
             visitedNodes.append(currNode)
-            print(currNode)
             if (problem.isGoalState(currNode)):
                 return directions
             for node, action, cost in problem.getSuccessors(currNode):
