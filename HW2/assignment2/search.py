@@ -106,7 +106,8 @@ def depthFirstSearch(problem):
                 # no thanks, we're good already
                 nextAction = directions + [action]
                 stack.push((node,nextAction))
-# "a comment there"
+    #Comment Comment Comment
+    #comment comment comment
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
