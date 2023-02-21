@@ -105,7 +105,8 @@ def depthFirstSearch(problem):
                 # We needed to add our directions each time we pushed onto the stack as well.
                 nextAction = directions + [action]
                 stack.push((node,nextAction))
-
+    #Comment Comment Comment
+    #comment comment comment
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
