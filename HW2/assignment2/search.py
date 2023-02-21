@@ -89,27 +89,58 @@ def depthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     from util import Stack
     visited = []
-    path = []
-    stack = Stack()
-    currState = problem.getStartState();
-    # print(problem.getSuccessors(currState))
-    stack.push(problem.getSuccessors(currState))
-    while (not problem.isGoalState(currState)):
-        # Need to get adjacent nodes
-        top = stack.pop();
-        for states in top:
-            print(states[0])
-            if states[0] in visited:
-                continue;
-            else:
-                visited.append(states[0])
-                path.append(states[1]); 
-                stack.push(problem.getSuccessors(states[0]));
-                currState = states[0];
-                if problem.isGoalState(currState):
-                    break;
-    print(path);
-    return path;
+    directions = []
+    path = Stack()
+    newArray = []
+    currState = (problem.getStartState(), 'dir', 0)
+    # currState = problem.getStartState()
+    # path.push(problem.getSuccessors(currState))
+    # i = 0;
+
+    path.push(currState)
+    # visited.append(currState)
+    visited.append(currState)
+    while (not problem.isGoalState(currState[0])):
+        check = path.pop()
+        directions.append(check[1])
+        options = problem.getSuccessors(check[0])
+        for option in options:
+            # print(option[0])
+            if option not in visited:
+                path.push(option)
+                print "pushed:", option
+            if problem.isGoalState(option[0]):
+                break
+        # visited.append(check)
+        visited.append(check)
+        currState = check
+    print(directions)
+    return directions
+         
+            
+
+
+
+    #     # Need to get adjacent nodes
+    #     choice = path.pop();
+
+
+    #     for states in choice:
+    #         # print(states[0])
+    #         if states[0] in visited:
+    #             # print(i)
+    #             continue;
+    #         else:
+    #             #This line of code is wrong
+    #             visited.append(states[0])
+    #             directions.append(states[1]); 
+    #             path.push(problem.getSuccessors(states[0]));
+    #             currState = states[0];
+    #             if problem.isGoalState(currState):
+    #                 break;
+    #     i += 1
+
+    # return directions;
 
     
 
