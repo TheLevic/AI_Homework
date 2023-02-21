@@ -87,64 +87,25 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
-    from util import Stack
-    visited = []
-    directions = []
-    path = Stack()
-    newArray = []
-    currState = (problem.getStartState(), 'dir', 0)
-    # currState = problem.getStartState()
-    # path.push(problem.getSuccessors(currState))
-    # i = 0;
+    from util import Stack        
+    stack = Stack()            
+    startNode = problem.getStartState()
+    if problem.isGoalState(startNode):
+        return []
+    visitedNodes = []
+    stack.push((startNode,[]))
+    while (not stack.isEmpty()):
+        # Get the top of the stack
+        currentNode, directions= stack.pop()    
+        if (currentNode not in visitedNodes):
+            visitedNodes.append(currentNode)
+            if problem.isGoalState(currentNode):
+                return directions
+            for node, action, cost in problem.getSuccessors(currentNode):
+                # We needed to add our directions each time we pushed onto the stack as well.
+                nextAction = directions + [action]
+                stack.push((node,nextAction))
 
-    path.push(currState)
-    # visited.append(currState)
-    visited.append(currState)
-    while (not problem.isGoalState(currState[0])):
-        check = path.pop()
-        directions.append(check[1])
-        options = problem.getSuccessors(check[0])
-        for option in options:
-            # print(option[0])
-            if option not in visited:
-                path.push(option)
-                print "pushed:", option
-            if problem.isGoalState(option[0]):
-                break
-        # visited.append(check)
-        visited.append(check)
-        currState = check
-    print(directions)
-    return directions
-         
-            
-
-
-
-    #     # Need to get adjacent nodes
-    #     choice = path.pop();
-
-
-    #     for states in choice:
-    #         # print(states[0])
-    #         if states[0] in visited:
-    #             # print(i)
-    #             continue;
-    #         else:
-    #             #This line of code is wrong
-    #             visited.append(states[0])
-    #             directions.append(states[1]); 
-    #             path.push(problem.getSuccessors(states[0]));
-    #             currState = states[0];
-    #             if problem.isGoalState(currState):
-    #                 break;
-    #     i += 1
-
-    # return directions;
-
-    
-
-        
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
