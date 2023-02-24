@@ -146,6 +146,7 @@ def uniformCostSearch(problem):
             visitedNodes.append(currNode)
         if (problem.isGoalState(currNode)):
             return directions
+        # All of this should be nested in the first if statement
         for node, action, cost in problem.getSuccessors(currNode):
             if (not node in visitedNodes): 
                 nextAction = directions + [action]
@@ -162,7 +163,24 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    from util import PriorityQueue
+    from searchAgents import manhattanHeuristic
+    visitedNodes = []
+    queue = PriorityQueue()
+    startNode = (problem.getStartState(), [],0) # ((x,y), dir, cost)
+    queue.push(startNode,0)
+
+    while (not queue.isEmpty()):
+        currNode, directions, cost = queue.pop()
+        if currNode not in visitedNodes:
+            visitedNodes.append(currNode) 
+            if (problem.isGoalState(currNode)):
+                return directions 
+            for nextNode, nextDirection, nextCost in problem.getSuccessors(currNode):
+                previousCost = problem.getCostOfActions(directions)
+                totalRemainingCost = manhattanHeuristic(nextNode,problem) 
+                totalDirections = directions + [nextDirection]
+                queue.push((nextNode, totalDirections, nextCost), (previousCost + totalRemainingCost))
 
 
 # Abbreviations
