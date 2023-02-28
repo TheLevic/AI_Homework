@@ -88,25 +88,22 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
     from util import Stack        
-    stack = Stack()            
-    startNode = problem.getStartState()
-    if problem.isGoalState(startNode):
-        return []
+    stack = Stack()
+    startLoc = problem.getStartState() # (35, 16)
+    if problem.isGoalState(startLoc): # if (x,y) == (1,1)
+        return [] # return no directions
     visitedNodes = []
-    stack.push((startNode,[]))
+    stack.push((startLoc,[],0)) # ((x,y), 'east', 0)
     while (not stack.isEmpty()):
-        # Get the top of the stack
-        currentNode, directions= stack.pop()    
-        if (currentNode not in visitedNodes):
-            visitedNodes.append(currentNode)
-            if problem.isGoalState(currentNode):
-                return directions
-            for node, action, cost in problem.getSuccessors(currentNode):
-                # We needed to add our directions each time we pushed onto the stack as well.
-
-                nextAction = directions + [action]
-                stack.push((node,nextAction))
-    return "Couldn't find"
+        currLoc, currDir, currCost = stack.pop() # state on top of stack
+        if (currLoc not in visitedNodes):
+            visitedNodes.append(currLoc) # don't check currLoc again
+            if problem.isGoalState(currLoc):
+                return currDir
+            for location, direction, cost in problem.getSuccessors(currLoc):
+                newDirections = currDir + [direction]
+                stack.push((location, newDirections, cost))
+    return "couldn't find"
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
@@ -115,43 +112,36 @@ def breadthFirstSearch(problem):
     queue = Queue()
     visitedNodes = []    
     startNode = problem.getStartState()
-    queue.push((startNode,[],0)) # ((x,y), "dir", 1)
+    queue.push((startNode,[],0)) # ((x,y), dir, cost)
     while (not queue.isEmpty()):
-        currNode, directions, cost = queue.pop()
-        if (currNode not in visitedNodes):
-            visitedNodes.append(currNode)
-            if (problem.isGoalState(currNode)):
-                return directions
-            for node, action, cost in problem.getSuccessors(currNode):
-                nextAction = directions + [action]
-                queue.push((node,nextAction,cost))
-    return "Couldn't find"
+        currNode, directions, cost = queue.pop() # checks the oldest element in the queue
+        if (currNode not in visitedNodes): # if it hasn't been checked before
+            visitedNodes.append(currNode) # ...then add it
+            if (problem.isGoalState(currNode)): # if this is the goal...
+                return directions # ...then exit 
+            for node, action, cost in problem.getSuccessors(currNode): # checks all of the children nodes
+                nextAction = directions + [action] # updates route to the child node
+                queue.push((node,nextAction,cost)) # adds item to queue
+    return "couldn't find"
             
-
-
-
-
 def uniformCostSearch(problem):
-    import time
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
     from util import PriorityQueue
     visitedNodes = []
-    startNode = (problem.getStartState(), [], 0)
+    startNode = (problem.getStartState(), [], 0) # ((x,y), dir, cost)
     queue = PriorityQueue()
-    queue.push((startNode), 0)    
+    queue.push((startNode), 0) # (node, cost)
     while (not queue.isEmpty()):
-        currNode, directions, cost = queue.pop()
-        if (currNode not in visitedNodes):
-            visitedNodes.append(currNode)
-        if (problem.isGoalState(currNode)):
-            return directions
-        # All of this should be nested in the first if statement
-        for node, action, cost in problem.getSuccessors(currNode):
-            if (not node in visitedNodes): 
-                nextAction = directions + [action]
-                queue.push((node,nextAction,cost), cost)
-    return "Couldn't find" 
+        currNode, directions, cost = queue.pop() # checks the oldest element in the queue
+        if (currNode not in visitedNodes): # if it hasn't been checked before
+            visitedNodes.append(currNode) # ...then add it
+            if (problem.isGoalState(currNode)): # if this is the goal...
+                return directions # ...then exit
+            for node, action, cost in problem.getSuccessors(currNode): # check all of the children nodes
+                nextAction = directions + [action] # updates route to the child node
+                queue.push((node,nextAction,cost), cost) # adds item to queue
+    return "couldn't find" 
 
 def nullHeuristic(state, problem=None):
     """
@@ -168,20 +158,20 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     visitedNodes = []
     queue = PriorityQueue()
     startNode = (problem.getStartState(), [],0) # ((x,y), dir, cost)
-    queue.push(startNode,0)
+    queue.push(startNode,0) # node, cost
 
     while (not queue.isEmpty()):
-        currNode, directions, cost = queue.pop()
-        if currNode not in visitedNodes:
-            visitedNodes.append(currNode) 
-            if (problem.isGoalState(currNode)):
-                return directions 
-            for nextNode, nextDirection, nextCost in problem.getSuccessors(currNode):
-                previousCost = problem.getCostOfActions(directions)
-                totalRemainingCost = manhattanHeuristic(nextNode,problem) 
-                totalDirections = directions + [nextDirection]
-                queue.push((nextNode, totalDirections, nextCost), (previousCost + totalRemainingCost))
-
+        currNode, directions, cost = queue.pop() # checks the oldest item in queue
+        if currNode not in visitedNodes: # if it hasn't been checked before
+            visitedNodes.append(currNode)  # ...then add it
+            if (problem.isGoalState(currNode)): # if this is the goal...
+                return directions  # ...then exit
+            for nextNode, nextDirection, nextCost in problem.getSuccessors(currNode): # check all of the children nodes
+                previousCost = problem.getCostOfActions(directions) # cost to get to this child node
+                totalRemainingCost = manhattanHeuristic(nextNode,problem) # cost to go from child to goal node
+                totalDirections = directions + [nextDirection] # updates route to the child node
+                queue.push((nextNode, totalDirections, nextCost), (previousCost + totalRemainingCost)) # (node, total cost)
+    return "couldn't find"
 
 # Abbreviations
 bfs = breadthFirstSearch
