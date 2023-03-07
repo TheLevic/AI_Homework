@@ -325,6 +325,8 @@ class Actions:
     vectorToDirection = staticmethod(vectorToDirection)
 
     def directionToVector(direction, speed = 1.0):
+        if (direction == 'c'):
+            print("problemmmmmmmmmm")
         dx, dy =  Actions._directions[direction]
         return (dx * speed, dy * speed)
     directionToVector = staticmethod(directionToVector)

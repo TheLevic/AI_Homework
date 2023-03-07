@@ -288,6 +288,8 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
+        print("init")
+        self.visited = []
 
     def getStartState(self):
         """
@@ -295,6 +297,7 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
+        print("startState")
         return self.startingPosition
 
     def isGoalState(self, state):
@@ -302,15 +305,28 @@ class CornersProblem(search.SearchProblem):
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        
+        n = 0
+        n += 1
         numVisited = 0
-        visited = [] # corners we've been to
+        # visited = [] # corners we've been to
 
-        if (state in self.corners) and (state not in visited): 
+        # print(self.corners)
+        # print(state)
+
+        if (state in self.corners) and (state not in self.visited): 
+            print("found corner")
             numVisited +=1
-            visited.append(state)
-
-        return (numVisited > 3) # check all 4 corners
+            self.visited.append(state)
+            print(self.visited)
+        
+        # print("goalState")
+        print("Are we done?")
+        print (len(self.visited) == 4)
+        return(len(self.visited) == 4)
+        # return (numVisited == 4) # check all 4 corners
+        # if n == 50:
+        #     return True
+        # return False
 
     def getSuccessors(self, state):
         """
@@ -322,7 +338,7 @@ class CornersProblem(search.SearchProblem):
             state, 'action' is the action required to get there, and 'stepCost'
             is the incremental cost of expanding to that successor
         """
-
+        print("successors")
         successors = []
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
             # Add a successor state to the successor list if the action is legal
@@ -337,11 +353,13 @@ class CornersProblem(search.SearchProblem):
             dx,dy = Actions.directionToVector(action)
             nextx,nexty = int(x+dx), int(y+dy)
             hitsWall = self.walls[nextx][nexty]
+            print(hitsWall)
 
             if not hitsWall:
                 successors.append(((nextx,nexty),action,1))
 
         self._expanded += 1 # DO NOT CHANGE
+        print(successors)
         return successors
 
     def getCostOfActions(self, actions):
@@ -349,9 +367,29 @@ class CornersProblem(search.SearchProblem):
         Returns the cost of a particular sequence of actions.  If those actions
         include an illegal move, return 999999.  This is implemented for you.
         """
+        print(actions)
         if actions == None: return 999999
         x,y= self.startingPosition
         for action in actions:
+            if action == 'c':
+                print("bruhhhhh")
+                continue
+            # if action == 'o':
+            #     continue
+            # if action == 'u':
+            #     continue
+            # if action == 'l':
+            #     continue
+            # if action == 'd':
+            #     continue
+            # if action == 'n':
+            #     continue
+            # if action == "'":
+            #     continue
+            # if action == "t":
+            #     continue
+            # if action == " ":
+            #     continue 
             dx, dy = Actions.directionToVector(action)
             x, y = int(x + dx), int(y + dy)
             if self.walls[x][y]: return 999999
