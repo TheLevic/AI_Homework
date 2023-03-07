@@ -329,6 +329,8 @@ class CornersProblem(search.SearchProblem):
               x,y = state
               dx, dy = Actions.directionToVector(action)
               nextx, nexty = int(x + dx), int(y + dy)
+              if ((nextx,nexty) in self.corners):
+                self.vistedCorners.append((nextx,nexty))
               hitsWall = self.walls[nextx][nexty]
               
               # Potentially check if we have hit a corner
