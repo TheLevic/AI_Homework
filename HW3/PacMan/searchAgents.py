@@ -288,6 +288,7 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
+        self.vistedCorners = []
 
     def getStartState(self):
         """
@@ -295,7 +296,7 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        return self.startingPosition
+        return (self.startingPosition)
 
     def isGoalState(self, state):
         """
@@ -304,6 +305,10 @@ class CornersProblem(search.SearchProblem):
 
         "*** YOUR CODE HERE ***"
         # Our goal state is when all food has been eaten.
+        if (len(self.vistedCorners) == 4):
+            return True
+        else:
+            return False
         
 
     def getSuccessors(self, state):
@@ -325,8 +330,11 @@ class CornersProblem(search.SearchProblem):
               dx, dy = Actions.directionToVector(action)
               nextx, nexty = int(x + dx), int(y + dy)
               hitsWall = self.walls[nextx][nexty]
+              
+              # Potentially check if we have hit a corner
+
               if (not hitsWall):
-                successors.append((nextx,nexty), action, 1)
+                successors.append(((nextx,nexty), action, 1))
 
         self._expanded += 1 # DO NOT CHANGE
         return successors
