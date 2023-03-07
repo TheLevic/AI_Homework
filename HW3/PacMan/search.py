@@ -115,10 +115,10 @@ def breadthFirstSearch(problem):
     queue.push((startNode,[],0)) # ((x,y), dir, cost)
     while (not queue.isEmpty()):
         currNode, directions, cost = queue.pop() # checks the oldest element in the queue
-        print(directions)
         if (currNode not in visitedNodes): # if it hasn't been checked before
             visitedNodes.append(currNode) # ...then add it
             if (problem.isGoalState(currNode)): # if this is the goal...
+                print(directions)
                 return directions # ...then exit 
             for node, action, cost in problem.getSuccessors(currNode): # checks all of the children nodes
                 nextAction = directions + [action] # updates route to the child node
