@@ -291,6 +291,9 @@ class CornersProblem(search.SearchProblem):
         print("init")
         self.visited = []
 
+        print("game state:")
+        print(startingGameState)
+
     def getStartState(self):
         """
         Returns the start state (in your state space, not the full Pacman state
@@ -305,9 +308,9 @@ class CornersProblem(search.SearchProblem):
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        n = 0
-        n += 1
-        numVisited = 0
+        # n = 0
+        # n += 1
+        # numVisited = 0
         # visited = [] # corners we've been to
 
         # print(self.corners)
@@ -315,7 +318,7 @@ class CornersProblem(search.SearchProblem):
 
         if (state in self.corners) and (state not in self.visited): 
             print("found corner")
-            numVisited +=1
+            # numVisited +=1
             self.visited.append(state)
             print(self.visited)
         
