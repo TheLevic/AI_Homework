@@ -171,7 +171,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                 totalRemainingCost = manhattanHeuristic(nextNode,problem) # cost to go from child to goal node
                 totalDirections = directions + [nextDirection] # updates route to the child node
                 queue.push((nextNode, totalDirections, nextCost), (previousCost + totalRemainingCost)) # (node, total cost)
-    return "couldn't find"
 
 # Abbreviations
 bfs = breadthFirstSearch
