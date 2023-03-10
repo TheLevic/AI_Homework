@@ -210,6 +210,7 @@ class PositionSearchProblem(search.SearchProblem):
 
         return successors
 
+
     def getCostOfActions(self, actions):
         """
         Returns the cost of a particular sequence of actions. If those actions
@@ -288,7 +289,6 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
-        self.vistedCorners = []
 
     def getStartState(self):
         """
@@ -296,7 +296,7 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        return (self.startingPosition)
+        return (self.startingPosition, [])
 
     def isGoalState(self, state):
         """
@@ -305,11 +305,13 @@ class CornersProblem(search.SearchProblem):
 
         "*** YOUR CODE HERE ***"
         # Our goal state is when all food has been eaten.
-        if (len(self.vistedCorners) == 4):
-            return True
-        else:
-            return False
-        
+        xy = state[0]
+        visitedCorners = state[1]
+        if xy in self.corners:
+            if not xy in visitedCorners:
+                visitedCorners.append(xy)
+            return (len(visitedCorners) == 4)
+        return False
 
     def getSuccessors(self, state):
         """
@@ -321,26 +323,24 @@ class CornersProblem(search.SearchProblem):
             state, 'action' is the action required to get there, and 'stepCost'
             is the incremental cost of expanding to that successor
         """
-
         successors = []
+        x,y = state[0]
+        visitedCorners = state[1]
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
-            # Add a successor state to the successor list if the action is legal
-            # Here's a code snippet for figuring out whether a new position hits a wall:
-              x,y = state
-              dx, dy = Actions.directionToVector(action)
-              nextx, nexty = int(x + dx), int(y + dy)
-              if ((nextx,nexty) in self.corners):
-                self.vistedCorners.append((nextx,nexty))
-              hitsWall = self.walls[nextx][nexty]
-              
-              # Potentially check if we have hit a corner
-
-              if (not hitsWall):
-                successors.append(((nextx,nexty), action, 1))
-
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
+            hitsWall = self.walls[nextx][nexty]
+            if not hitsWall:
+                successorVisitedCorners = list(visitedCorners)
+                next_node = (nextx, nexty)
+                if next_node in self.corners:
+                    if not next_node in successorVisitedCorners:
+                        successorVisitedCorners.append(next_node)
+                successor = ((next_node, successorVisitedCorners), action, 1)
+                successors.append(successor)
         self._expanded += 1 # DO NOT CHANGE
         return successors
-
+        
     def getCostOfActions(self, actions):
         """
         Returns the cost of a particular sequence of actions.  If those actions

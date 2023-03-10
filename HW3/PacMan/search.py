@@ -123,8 +123,6 @@ def breadthFirstSearch(problem):
             for node, action, cost in problem.getSuccessors(currNode): # checks all of the children nodes
                 nextAction = directions + [action] # updates route to the child node
                 queue.push((node,nextAction,cost)) # adds item to queue
-
-
            
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
