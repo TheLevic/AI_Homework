@@ -110,20 +110,26 @@ def breadthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     from util import Queue
     queue = Queue()
-    visitedNodes = []    
-    startNode = problem.getStartState()
-    queue.push((startNode,[],0)) # ((x,y), dir, cost)
-    while (not queue.isEmpty()):
-        currNode, directions, cost = queue.pop() # checks the oldest element in the queue
-        if (currNode not in visitedNodes): # if it hasn't been checked before
-            visitedNodes.append(currNode) # ...then add it
-            if (problem.isGoalState(currNode)): # if this is the goal...
-                print(directions)
-                return directions # ...then exit 
-            for node, action, cost in problem.getSuccessors(currNode): # checks all of the children nodes
-                nextAction = directions + [action] # updates route to the child node
-                queue.push((node,nextAction,cost)) # adds item to queue
-           
+    queue.push(problem.getStartState())
+    visited = []
+    tempPath=[]
+    path=[]
+    pathToCurrent=Queue()
+    currState = queue.pop()      
+    while not problem.isGoalState(currState):
+        if currState not in visited:
+            visited.append(currState)
+            successors = problem.getSuccessors(currState)
+            for child,direction,cost in successors:
+                queue.push(child)
+                tempPath = path + [direction]
+                pathToCurrent.push(tempPath)
+        currState = queue.pop()
+        path = pathToCurrent.pop()
+    return path
+
+
+
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
@@ -154,25 +160,30 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
     from util import PriorityQueue
-    from searchAgents import manhattanHeuristic
-    visitedNodes = []
     queue = PriorityQueue()
-    startNode = (problem.getStartState(), [],0) # ((x,y), dir, cost)
-    queue.push(startNode,0) # node, cost
+    queue.push(problem.getStartState(),0)
+    currState = queue.pop()
+    visited = []
+    tempPath=[]
+    path=[]
+    pathToCurrent=PriorityQueue()  
+    while not problem.isGoalState(currState):
+        if currState not in visited:
+            visited.append(currState)
+            successors = problem.getSuccessors(currState)
+            for child,direction,cost in successors:
+                tempPath = path + [direction]
+                costToGo = problem.getCostOfActions(tempPath) + heuristic(child,problem)
+                if child not in visited:
+                    queue.push(child,costToGo)
+                    pathToCurrent.push(tempPath,costToGo)
+        currState = queue.pop()
+        path = pathToCurrent.pop()
+    return path
 
-    while (not queue.isEmpty()):
-        currNode, directions, cost = queue.pop() # checks the oldest item in queue
-        if currNode not in visitedNodes: # if it hasn't been checked before
-            visitedNodes.append(currNode)  # ...then add it
-            if (problem.isGoalState(currNode)): # if this is the goal...
-                return directions  # ...then exit
-            for nextNode, nextDirection, nextCost in problem.getSuccessors(currNode): # check all of the children nodes
-                previousCost = problem.getCostOfActions(directions) # cost to get to this child node
-                totalRemainingCost = manhattanHeuristic(nextNode,problem) # cost to go from child to goal node
-                totalDirections = directions + [nextDirection] # updates route to the child node
-                queue.push((nextNode, totalDirections, nextCost), (previousCost + totalRemainingCost)) # (node, total cost)
 
-# Abbreviations
+    
+    # Abbreviations
 bfs = breadthFirstSearch
 dfs = depthFirstSearch
 astar = aStarSearch
