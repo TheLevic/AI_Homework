@@ -369,11 +369,14 @@ class CornersProblem(search.SearchProblem):
         return len(actions) 
 
 def mazeDistance(point1, point2, gameState):
+    # Get our initial points and walls
     x1, y1 = point1
     x2, y2 = point2
     walls = gameState.getWalls()
     assert not walls[x1][y1], 'point1 is a wall: ' + str(point1)
     assert not walls[x2][y2], 'point2 is a wall: ' + str(point2)
+    
+    # Creating a new problem
     newProblem = PositionSearchProblem(gameState = gameState,start = point1,goal = point2,warn = False,visualize = False)
     return len(search.bfs(newProblem))
 
@@ -394,13 +397,18 @@ def cornersHeuristic(state, problem):
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
+    # Getting initial state
     xy = state[0]
     visitedCorners = state[1]
     cornersNotVisited = []
+    # Need to loop through every corner in our corners to add to the not visited list
     for corner in corners:
         if not (corner in visitedCorners):
             cornersNotVisited.append(corner)
+    #Creating an initial heuristic value list
     heuristicvalue = [0]
+
+    # Need to append to our list for each corner that hasn't been visited
     for corner in cornersNotVisited:
         heuristicvalue.append(mazeDistance(xy,corner,problem.getStartingGameState()))
     return max(heuristicvalue)
@@ -458,6 +466,7 @@ class FoodSearchProblem:
             x, y = int(x + dx), int(y + dy)
             if self.walls[x][y]:
                 return 999999
+            # Add 1 to our cost
             cost += 1
         return cost
 
@@ -499,7 +508,9 @@ def foodHeuristic(state, problem):
     "*** YOUR CODE HERE ***"
     foodposition = foodGrid.asList()
     heuristic = [0]
+    # loop through each position in food positon
     for position in foodposition:
+        # Append to heuristic
         heuristic.append(mazeDistance(position,position,problem.startingGameState))
     return max(heuristic)
 
@@ -572,6 +583,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         x,y = state
 
         "*** YOUR CODE HERE ***"
+        # Returing our goal state here
         return state in self.food.asList()
 
 def mazeDistance(point1, point2, gameState):
