@@ -300,6 +300,7 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
+        # Returing our position, and the visitedlist
         return (self.startingPosition, [])
 
     def isGoalState(self, state):
@@ -309,6 +310,7 @@ class CornersProblem(search.SearchProblem):
 
         "*** YOUR CODE HERE ***"
         # Our goal state is when all food has been eaten.
+        # Need to check that we have visited all four corners
         xy = state[0]
         visitedCorners = state[1]
         if xy in self.corners:
@@ -332,13 +334,16 @@ class CornersProblem(search.SearchProblem):
         visitedCorners = state[1]
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
             dx, dy = Actions.directionToVector(action)
+            # Now getting the next x and y
             nextx, nexty = int(x + dx), int(y + dy)
+            #Making sure that we are not hitting a wall
             hitsWall = self.walls[nextx][nexty]
             if not hitsWall:
                 successorVisitedCorners = list(visitedCorners)
                 next_node = (nextx, nexty)
                 if next_node in self.corners:
                     if not next_node in successorVisitedCorners:
+                        #Need to append to visited if it's not in it already
                         successorVisitedCorners.append(next_node)
                 successor = ((next_node, successorVisitedCorners), action, 1)
                 successors.append(successor)
@@ -354,6 +359,8 @@ class CornersProblem(search.SearchProblem):
         if actions == None:
             return 999999 # Invalid
         x, y = self.startingPosition
+
+        # Checking to see how many actions it takes for us to get to end result
         for action in actions:
             dx, dy = Actions.directionToVector(action)
             x, y = int(x + dx), int(y + dy)
@@ -367,8 +374,8 @@ def mazeDistance(point1, point2, gameState):
     walls = gameState.getWalls()
     assert not walls[x1][y1], 'point1 is a wall: ' + str(point1)
     assert not walls[x2][y2], 'point2 is a wall: ' + str(point2)
-    prob = PositionSearchProblem(gameState = gameState,start = point1,goal = point2,warn = False,visualize = False)
-    return len(search.bfs(prob))
+    newProblem = PositionSearchProblem(gameState = gameState,start = point1,goal = point2,warn = False,visualize = False)
+    return len(search.bfs(newProblem))
 
 def cornersHeuristic(state, problem):
     """
@@ -389,12 +396,12 @@ def cornersHeuristic(state, problem):
 
     xy = state[0]
     visitedCorners = state[1]
-    unvisitedCorners = []
+    cornersNotVisited = []
     for corner in corners:
         if not (corner in visitedCorners):
-            unvisitedCorners.append(corner)
+            cornersNotVisited.append(corner)
     heuristicvalue = [0]
-    for corner in unvisitedCorners:
+    for corner in cornersNotVisited:
         heuristicvalue.append(mazeDistance(xy,corner,problem.getStartingGameState()))
     return max(heuristicvalue)
     
@@ -490,11 +497,10 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    position, foodGrid = state
     foodposition = foodGrid.asList()
     heuristic = [0]
-    for pos in foodposition:
-        heuristic.append(mazeDistance(position,pos,problem.startingGameState))
+    for position in foodposition:
+        heuristic.append(mazeDistance(position,position,problem.startingGameState))
     return max(heuristic)
 
 class ClosestDotSearchAgent(SearchAgent):
